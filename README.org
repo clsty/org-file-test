@@ -1,0 +1,133 @@
+#  ---
+  :Tags:
+    "*":
+      :open: big
+      :close: big
+
+# 以上是 org-ruby 的自定义 marker 的功能，此例中，去掉注释后可以将 * 变成放大字体效果。若测试失败，则应当表示这是 org-ruby 新版功能，而 github 还未跟进。
+
+这里用于测试 GitHub 对一些 *org-mode* 文段的支持能力。
+- 一份更丰富（但有些过时）的测试： [[https://github.com/novoid/github-orgmode-tests][github-orgmode-tests]]
+相关链接：
+- GitHub 官方的标记语言支持：[[https://github.com/github/markup][github/markup]]
+  - 各依赖库的版本列表：https://github.com/github/markup/master/Gemfile
+  - 对 org-mode 的支持是通过（旧版）[[https://github.com/wallyqs/org-ruby][org-ruby]] 实现的。
+- GitHub 官方的[[https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams][绘图指南]]
+
+* 格式化文本
+标记两侧空格：必须加空格，或嵌入 html。
+# https://github.com/github/markup/pull/326 据这个，实际上已经是 0.9.9 了，且行内 html 也应已可用。
+-----------------
+=TEST-AREA-BEGIN=
+
+- 这是 *粗体文本（两侧加空格）* 。
+- 这是*粗体文本（两侧无空格）*。
+- 这是​*粗体文本（两侧零宽空格）*​。
+- 这是@@html:<strong>@@粗体文本（嵌入行内 html）@@html:</strong>@@。
+#+BEGIN_HTML
+这是<strong>粗体文本（嵌入 html 代码块）</strong>。
+#+END_HTML
+
+=TEST-AREA-END=
+-----------------
+* 绘图
+ditaa：不支持
+-----------------
+=TEST-AREA-BEGIN=
+
+#+begin_src ditaa
+  +---------+
+  | cBLU    |
+  |         |
+  |    +----+
+  |    |cPNK|
+  |    |    |
+  +----+----+
+#+end_src
+
+=TEST-AREA-END=
+-----------------
+
+mermaid：支持
+-----------------
+=TEST-AREA-BEGIN=
+
+#+begin_src mermaid
+graph LR
+MS[Mirror Server] <--> PN
+PN([Protected Network]) --> PS
+PS[Proxy Server] --> IN([Internet])
+#+end_src
+
+=TEST-AREA-END=
+-----------------
+
+* 嵌入其他格式化文本
+LaTeX：部分“支持”。
+
+“支持”：
+-----------------
+=TEST-AREA-BEGIN=
+
+\ast{} \alpha \beta \phi
+$\varphi$
+
+=TEST-AREA-END=
+-----------------
+
+不支持：
+-----------------
+=TEST-AREA-BEGIN=
+
+\LaTeX{}
+
+=TEST-AREA-END=
+-----------------
+
+完全不渲染：
+- =#+BEGIN_LATEX= 的这种代码块。
+-----------------
+=TEST-AREA-BEGIN=
+
+#+BEGIN_LATEX
+\section{Section Title}
+
+This is \emph{emphasized} and $y=x^2$ is an equation.
+
+An example in an LATEX block.
+Another line within this block.
+
+\alpha $x=42y$
+
+Greek characters \alpha \beta \phi \LaTeX{}  $\varphi$
+#+END_LATEX
+
+=TEST-AREA-END=
+-----------------
+
+HTML：支持。
+-----------------
+=TEST-AREA-BEGIN=
+
+#+html: <details>
+文本一
+#+html: <summary>总结</summary>
+文本二
+#+html: </details>
+文本三
+
+=TEST-AREA-END=
+-----------------
+
+-----------------
+=TEST-AREA-BEGIN=
+
+#+BEGIN_HTML
+<strong>This is strong</strong>.
+<em>This</em> is emphasized.
+Heres is a web reference: <a href="https://github.com/clsty">link</a>
+<!-- this is a comment -->
+#+END_HTML
+
+=TEST-AREA-END=
+-----------------
